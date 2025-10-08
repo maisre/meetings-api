@@ -10,12 +10,14 @@ import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local.strategy';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt.strategy';
+import { MeetingService } from './meeting/meeting.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
+    private readonly meetingService: MeetingService,
   ) {}
 
   @Get()
@@ -40,5 +42,11 @@ export class AppController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  // @UseGuards(JwtAuthGuard)
+  @Get('meetings')
+  getMeetings(@Request() req) {
+    return this.meetingService.findAll();
   }
 }
