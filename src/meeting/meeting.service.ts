@@ -19,6 +19,34 @@ export class MeetingService {
     return this.meetingModel.find({}).exec();
   }
 
+  async findSpeakers(): Promise<Array<{ date: Date; speaker: String }>> {
+    const meetings = await this.meetingModel
+      .find({}, { date: 1, speakers: 1 })
+      .exec();
+    return meetings.flatMap((meeting) =>
+      meeting.speakers.map((speaker) => ({
+        date: meeting.date,
+        speaker,
+      })),
+    );
+  }
+
+  async findPrayers(): Promise<Array<{ date: Date; prayer: String }>> {
+    const meetings = await this.meetingModel
+      .find({}, { date: 1, invocation: 1, benediction: 1 })
+      .exec();
+    return meetings.flatMap((meeting) => [
+      {
+        date: meeting.date,
+        prayer: meeting.invocation,
+      },
+      {
+        date: meeting.date,
+        prayer: meeting.benediction,
+      },
+    ]);
+  }
+
   async findOne(id: string): Promise<Meeting> {
     const meeting = await this.meetingModel.findById(id).exec();
     if (!meeting) {
