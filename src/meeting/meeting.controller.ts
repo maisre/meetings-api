@@ -8,14 +8,17 @@ import {
   Param,
   HttpStatus,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { MeetingService } from './meeting.service';
 import { Meeting } from './interfaces/meeting.interface';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { UpdateMeetingDto } from './dto/update-meeting.dto';
 import { ParseObjectIdPipe } from './pipes/parse-object-id.pipe';
+import { JwtAuthGuard } from '../auth/jwt.strategy';
 
 @Controller('meetings')
+@UseGuards(JwtAuthGuard)
 export class MeetingController {
   constructor(private readonly meetingService: MeetingService) {}
 
