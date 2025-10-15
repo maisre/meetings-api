@@ -49,4 +49,9 @@ export class AppController {
   getMeetings(@Request() req) {
     return this.meetingService.findAll();
   }
+
+  @Get('healthcheck')
+  healthcheck() {
+    return { status: 'ok' };
+  }
 }
