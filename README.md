@@ -42,6 +42,9 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# production mode with HTTPS
+$ npm run start:prod:https
 ```
 
 ## Run tests
@@ -56,6 +59,68 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## HTTPS Configuration
+
+This application supports HTTPS in production environments. The HTTPS configuration is automatically enabled when `NODE_ENV=production`, or can be manually enabled by setting `USE_HTTPS=true`.
+
+### Environment Variables
+
+Configure HTTPS using the following environment variables:
+
+- `NODE_ENV`: Set to `production` to automatically enable HTTPS
+- `USE_HTTPS`: Set to `true` to manually enable HTTPS
+- `SSL_CERT_PATH`: Path to your SSL certificate file (default: `/etc/ssl/certs/server.crt`)
+- `SSL_KEY_PATH`: Path to your SSL private key file (default: `/etc/ssl/private/server.key`)
+- `SSL_CA_PATH`: Path to your certificate chain file (optional, for intermediate certificates)
+- `PORT`: Server port (default: `3000`)
+
+### SSL Certificate Setup
+
+1. **Obtain SSL certificates**: You can get certificates from:
+   - Let's Encrypt (free)
+   - Your domain provider
+   - Self-signed certificates for development
+
+2. **Place certificates**: Store your certificates in secure locations:
+
+   ```bash
+   # Example paths (adjust as needed)
+   SSL_CERT_PATH=/etc/ssl/certs/your-domain.crt
+   SSL_KEY_PATH=/etc/ssl/private/your-domain.key
+   SSL_CA_PATH=/etc/ssl/certs/your-domain-chain.crt  # Optional: for intermediate certificates
+   ```
+
+3. **Set permissions**: Ensure proper file permissions:
+
+   ```bash
+   sudo chmod 644 /etc/ssl/certs/your-domain.crt
+   sudo chmod 600 /etc/ssl/private/your-domain.key
+   sudo chmod 644 /etc/ssl/certs/your-domain-chain.crt  # If using certificate chain
+   ```
+
+4. **Certificate Chain**: The `SSL_CA_PATH` is optional but recommended for:
+   - Intermediate certificates from your CA
+   - Root certificates for better compatibility
+   - Certificate bundles that include the full chain
+
+### Running with HTTPS
+
+```bash
+# Production with HTTPS (automatic)
+NODE_ENV=production npm run start:prod
+
+# Manual HTTPS enablement
+USE_HTTPS=true npm run start:prod
+
+# Custom certificate paths with certificate chain
+SSL_CERT_PATH=/path/to/cert.crt SSL_KEY_PATH=/path/to/key.key SSL_CA_PATH=/path/to/chain.crt npm run start:prod:https
+```
+
+### Development vs Production
+
+- **Development**: Runs on HTTP by default for easier local development
+- **Production**: Automatically attempts HTTPS, falls back to HTTP if certificates are missing
 
 ## Deployment
 
