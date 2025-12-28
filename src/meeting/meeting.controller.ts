@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Delete,
   Body,
   Param,
@@ -48,7 +47,7 @@ export class MeetingController {
     return this.meetingService.findOne(id);
   }
 
-  @Put(':id')
+  @Post(':id')
   async update(
     @Param('id', ParseObjectIdPipe) id: string,
     @Body() updateMeetingDto: UpdateMeetingDto,
