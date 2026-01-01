@@ -32,6 +32,11 @@ export class MeetingController {
     return this.meetingService.findAll();
   }
 
+  @Get('upcoming')
+  async findUpcoming(): Promise<Meeting[]> {
+    return this.meetingService.findUpcoming();
+  }
+
   @Get('speakers')
   async findSpeakers(): Promise<Array<{ date: Date; speaker: String }>> {
     return this.meetingService.findSpeakers();

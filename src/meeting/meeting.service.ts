@@ -19,6 +19,13 @@ export class MeetingService {
     return this.meetingModel.find({}).exec();
   }
 
+  async findUpcoming(): Promise<Meeting[]> {
+    return this.meetingModel
+      .find({ date: { $gte: new Date() } })
+      .sort({ date: 1 })
+      .exec();
+  }
+
   async findSpeakers(): Promise<Array<{ date: Date; speaker: String }>> {
     const meetings = await this.meetingModel
       .find({}, { date: 1, speakers: 1 })
