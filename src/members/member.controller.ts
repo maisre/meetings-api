@@ -11,6 +11,7 @@ import {
   HttpStatus,
   HttpCode,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { Member } from './interfaces/member.interface';
@@ -26,8 +27,14 @@ export class MemberController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createMemberDto: CreateMemberDto): Promise<Member> {
-    return this.memberService.create(createMemberDto);
+  async create(
+    @Req() req,
+    @Body() createMemberDto: CreateMemberDto,
+  ): Promise<Member> {
+    return this.memberService.create({
+      ...createMemberDto,
+      unit: req.user.unit,
+    });
   }
 
   @Get()

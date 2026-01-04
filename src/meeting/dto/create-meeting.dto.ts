@@ -4,30 +4,40 @@ import {
   IsArray,
   ValidateNested,
   IsMongoId,
+  IsOptional,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 import { WardBusinessDto } from './ward-business.dto';
+
+const emptyToUndefined = ({ value }) => (value === '' ? undefined : value);
 
 export class CreateMeetingDto {
   @IsDateString()
   date: Date;
 
+  @IsOptional()
   @IsMongoId()
-  invocation: string;
+  @Transform(emptyToUndefined)
+  invocation?: string;
 
+  @IsOptional()
   @IsArray()
   @IsMongoId({ each: true })
-  speakers: string[];
+  speakers?: string[];
 
+  @IsOptional()
   @IsMongoId()
-  benediction: string;
+  @Transform(emptyToUndefined)
+  benediction?: string;
 
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => WardBusinessDto)
-  wardBusiness: WardBusinessDto[];
+  wardBusiness?: WardBusinessDto[];
 
+  @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  stakeBusiness: string[];
+  stakeBusiness?: string[];
 }

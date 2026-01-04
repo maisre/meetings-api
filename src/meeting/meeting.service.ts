@@ -11,7 +11,12 @@ export class MeetingService {
   ) {}
 
   async create(createMeetingDto: CreateMeetingDto): Promise<Meeting> {
-    const createdMeeting = new this.meetingModel(createMeetingDto);
+    const meetingData = {
+      ...createMeetingDto,
+      invocation: createMeetingDto.invocation || undefined,
+      benediction: createMeetingDto.benediction || undefined,
+    };
+    const createdMeeting = new this.meetingModel(meetingData);
     return createdMeeting.save();
   }
 
