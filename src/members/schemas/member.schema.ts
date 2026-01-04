@@ -12,5 +12,14 @@ export const MemberSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret: Record<string, unknown>) => {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   },
 );

@@ -15,6 +15,7 @@ import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { UpdateMeetingDto } from './dto/update-meeting.dto';
 import { ParseObjectIdPipe } from './pipes/parse-object-id.pipe';
 import { JwtAuthGuard } from '../auth/jwt.strategy';
+import { Types } from 'mongoose';
 
 @Controller('meetings')
 @UseGuards(JwtAuthGuard)
@@ -38,12 +39,14 @@ export class MeetingController {
   }
 
   @Get('speakers')
-  async findSpeakers(): Promise<Array<{ date: Date; speaker: String }>> {
+  async findSpeakers(): Promise<
+    Array<{ date: Date; speaker: Types.ObjectId }>
+  > {
     return this.meetingService.findSpeakers();
   }
 
   @Get('prayers')
-  async findPrayers(): Promise<Array<{ date: Date; prayer: String }>> {
+  async findPrayers(): Promise<Array<{ date: Date; prayer: Types.ObjectId }>> {
     return this.meetingService.findPrayers();
   }
 

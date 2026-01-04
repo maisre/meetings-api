@@ -3,6 +3,7 @@ import {
   IsString,
   IsArray,
   ValidateNested,
+  IsMongoId,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { WardBusinessDto } from './ward-business.dto';
@@ -11,14 +12,14 @@ export class CreateMeetingDto {
   @IsDateString()
   date: Date;
 
-  @IsString()
+  @IsMongoId()
   invocation: string;
 
   @IsArray()
-  @IsString({ each: true })
+  @IsMongoId({ each: true })
   speakers: string[];
 
-  @IsString()
+  @IsMongoId()
   benediction: string;
 
   @IsArray()

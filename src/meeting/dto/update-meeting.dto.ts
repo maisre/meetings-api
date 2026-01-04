@@ -1,9 +1,10 @@
 import {
   IsDateString,
-  IsString,
   IsArray,
   IsOptional,
   ValidateNested,
+  IsMongoId,
+  IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { WardBusinessDto } from './ward-business.dto';
@@ -14,16 +15,16 @@ export class UpdateMeetingDto {
   date?: Date;
 
   @IsOptional()
-  @IsString()
+  @IsMongoId()
   invocation?: string;
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
+  @IsMongoId({ each: true })
   speakers?: string[];
 
   @IsOptional()
-  @IsString()
+  @IsMongoId()
   benediction?: string;
 
   @IsOptional()

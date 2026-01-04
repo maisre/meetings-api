@@ -1,10 +1,10 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface Meeting extends Document {
   readonly date: Date;
-  readonly invocation: String;
-  readonly speakers: Array<String>;
-  readonly benediction: String;
+  readonly invocation: Types.ObjectId;
+  readonly speakers: Types.ObjectId[];
+  readonly benediction: Types.ObjectId;
   readonly wardBusiness: Array<{ type: WardBusinessType; text: String }>;
   readonly stakeBusiness: Array<String>;
 }

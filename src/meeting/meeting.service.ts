@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Meeting } from './interfaces/meeting.interface';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { UpdateMeetingDto } from './dto/update-meeting.dto';
@@ -26,7 +26,9 @@ export class MeetingService {
       .exec();
   }
 
-  async findSpeakers(): Promise<Array<{ date: Date; speaker: String }>> {
+  async findSpeakers(): Promise<
+    Array<{ date: Date; speaker: Types.ObjectId }>
+  > {
     const meetings = await this.meetingModel
       .find({}, { date: 1, speakers: 1 })
       .exec();
@@ -38,7 +40,7 @@ export class MeetingService {
     );
   }
 
-  async findPrayers(): Promise<Array<{ date: Date; prayer: String }>> {
+  async findPrayers(): Promise<Array<{ date: Date; prayer: Types.ObjectId }>> {
     const meetings = await this.meetingModel
       .find({}, { date: 1, invocation: 1, benediction: 1 })
       .exec();
